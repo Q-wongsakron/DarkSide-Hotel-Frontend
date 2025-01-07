@@ -4,6 +4,15 @@ export const api = axios.create({
     baseURL : "http://localhost:8080"
 })
 
+
+export const getHeader = () => {
+    const token = localStorage.getItem("token")
+    return {
+        Authorization: `Bearer ${token}`,
+        "Content-Type" : "application/json"
+    }
+}
+
 // This function adds a new room to the database
 export async function addRoom(photo, roomType, roomPrice){
     const formData = new FormData()
@@ -45,9 +54,12 @@ export async function getAllRooms() {
 // this functions delete room by id
 export async function deleteRoom(roomId){
     try {
+        // const result = await api.delete(`/rooms/delete/room/${roomId}`, {
+        //     headers: getHeader()
+        // })
         const result = await api.delete(`/rooms/delete/room/${roomId}`)
         return result.data
-    } catch (error) {
+    } catch (error)  {
         throw new Error(`Error deleting room ${error.message}`)
-    }
-}
+    } 
+}     
